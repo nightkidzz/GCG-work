@@ -7,9 +7,10 @@ import argparse
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-import nanogcg, fastergcg
+import nanogcg, fastergcg, macgcg
 from nanogcg import GCGConfig, ProbeSamplingConfig
 from fastergcg import FasterGCGConfig, ProbeSamplingConfig
+from macgcg import MACGCGConfig, ProbeSamplingConfig
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
@@ -53,12 +54,24 @@ def main():
     #     config,
     # )
 
-    config = FasterGCGConfig(
+    # config = FasterGCGConfig(
+    #     verbosity="DEBUG",
+    #     probe_sampling_config=probe_sampling_config,
+    # )
+
+    # result = fastergcg.run(
+    #     model,
+    #     tokenizer,
+    #     messages,
+    #     args.target,
+    #     config,
+    # )
+    config = MACGCGConfig(
         verbosity="DEBUG",
         probe_sampling_config=probe_sampling_config,
     )
 
-    result = fastergcg.run(
+    result = macgcg.run(
         model,
         tokenizer,
         messages,
